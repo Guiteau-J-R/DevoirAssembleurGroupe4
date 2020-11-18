@@ -1,0 +1,44 @@
+< THE SYMBOL TABLE >  Average8Numbers.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG1                     	00000     	1         	VAR       	data      
+MSG2                     	0001B     	1         	VAR       	data      
+MSG3                     	0002C     	1         	VAR       	data      
+MSG4                     	00036     	1         	VAR       	data      
+AVG                      	00077     	2         	VAR       	data      
+CODE                     	00018     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	FAR       	code      
+BEGIN                    	0000E     	-1        	LABEL     	code      
+LOOP1                    	00025     	-1        	LABEL     	code      
+EXIT                     	000B0     	-1        	LABEL     	code      
+SCAN_NUM                 	000B4     	-1        	NEAR      	code      
+NEXT_DIGIT               	000C0     	-1        	LABEL     	code      
+NOT_CR                   	000D3     	-1        	LABEL     	code      
+BACKSPACE_CHECKED        	000F5     	-1        	LABEL     	code      
+OK_AE_0                  	000FB     	-1        	LABEL     	code      
+REMOVE_NOT_DIGIT         	000FF     	-1        	LABEL     	code      
+OK_DIGIT                 	00119     	-1        	LABEL     	code      
+SET_MINUS                	00135     	-1        	LABEL     	code      
+TOO_BIG2                 	0013D     	-1        	LABEL     	code      
+TOO_BIG                  	00142     	-1        	LABEL     	code      
+STOP_INPUT               	00166     	-1        	LABEL     	code      
+NOT_MINUS                	00170     	-1        	LABEL     	code      
+MAKE_MINUS               	00174     	1         	VAR       	code      
+PRINT_NUM                	00175     	-1        	NEAR      	code      
+NOT_ZERO                 	00186     	-1        	LABEL     	code      
+POSITIVE                 	00195     	-1        	LABEL     	code      
+PRINTED                  	00198     	-1        	LABEL     	code      
+PRINT_NUM_UNS            	0019B     	-1        	NEAR      	code      
+BEGIN_PRINT              	001AA     	-1        	LABEL     	code      
+CALC                     	001B8     	-1        	LABEL     	code      
+SKIP                     	001CC     	-1        	LABEL     	code      
+PRINT_ZERO               	001DC     	-1        	LABEL     	code      
+END_PRINT                	001E4     	-1        	LABEL     	code      
+TEN                      	001E9     	2         	VAR       	code      
+===================================================================================================
+[ 10/24/2020  --  1:30:04 PM ] 
+< END >
+ 

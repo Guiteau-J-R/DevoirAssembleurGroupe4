@@ -1,0 +1,31 @@
+< THE SYMBOL TABLE >  charConverter.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG1                     	00000     	1         	VAR       	data      
+MSG2                     	00046     	1         	VAR       	data      
+MSG3                     	00071     	1         	VAR       	data      
+MSG4                     	0008A     	1         	VAR       	data      
+MSG5                     	0009F     	1         	VAR       	data      
+INPUT                    	000E0     	1         	VAR       	data      
+CODE                     	0001F     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	FAR       	code      
+BEGIN                    	0000E     	-1        	LABEL     	code      
+DO                       	00027     	-1        	LABEL     	code      
+FIRSTTIME                	0003F     	-1        	LABEL     	code      
+ENDDO                    	00053     	-1        	LABEL     	code      
+MAJ                      	0005B     	-1        	LABEL     	code      
+MIN                      	0005D     	-1        	LABEL     	code      
+LOOP1                    	00065     	-1        	LABEL     	code      
+ELSE1                    	00071     	-1        	LABEL     	code      
+ENDIF1                   	00074     	-1        	LABEL     	code      
+LOOP2                    	000A1     	-1        	LABEL     	code      
+LOOP3                    	000BE     	-1        	LABEL     	code      
+LOOP4                    	000E2     	-1        	LABEL     	code      
+EXIT                     	00137     	-1        	LABEL     	code      
+===================================================================================================
+[ 10/24/2020  --  12:46:06 PM ] 
+< END >
+ 

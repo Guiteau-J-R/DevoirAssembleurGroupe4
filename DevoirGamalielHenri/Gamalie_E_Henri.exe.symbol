@@ -1,0 +1,49 @@
+< THE SYMBOL TABLE >  Gamalie_E_Henri.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG1                     	00000     	1         	VAR       	data      
+MSG2                     	00035     	1         	VAR       	data      
+MSG3                     	0006C     	1         	VAR       	data      
+MSG4                     	00093     	1         	VAR       	data      
+MSG5                     	000C2     	1         	VAR       	data      
+MSG6                     	000C5     	1         	VAR       	data      
+QUANT                    	000C7     	2         	VAR       	data      
+NMB                      	000C9     	2         	VAR       	data      
+RES                      	000CB     	2         	VAR       	data      
+MSG7                     	000CD     	1         	VAR       	data      
+CODE                     	00020     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	FAR       	code      
+L1                       	00030     	-1        	LABEL     	code      
+L2                       	0005B     	-1        	LABEL     	code      
+FINTOUR                  	00072     	-1        	LABEL     	code      
+SCAN_NUM                 	00099     	-1        	NEAR      	code      
+NEXT_DIGIT               	000A5     	-1        	LABEL     	code      
+NOT_CR                   	000B8     	-1        	LABEL     	code      
+BACKSPACE_CHECKED        	000DA     	-1        	LABEL     	code      
+OK_AE_0                  	000E0     	-1        	LABEL     	code      
+REMOVE_NOT_DIGIT         	000E4     	-1        	LABEL     	code      
+OK_DIGIT                 	000FE     	-1        	LABEL     	code      
+SET_MINUS                	0011A     	-1        	LABEL     	code      
+TOO_BIG2                 	00122     	-1        	LABEL     	code      
+TOO_BIG                  	00127     	-1        	LABEL     	code      
+STOP_INPUT               	0014B     	-1        	LABEL     	code      
+NOT_MINUS                	00155     	-1        	LABEL     	code      
+MAKE_MINUS               	00159     	1         	VAR       	code      
+PRINT_NUM                	0015A     	-1        	NEAR      	code      
+NOT_ZERO                 	0016B     	-1        	LABEL     	code      
+POSITIVE                 	0017A     	-1        	LABEL     	code      
+PRINTED                  	0017D     	-1        	LABEL     	code      
+PRINT_NUM_UNS            	00180     	-1        	NEAR      	code      
+BEGIN_PRINT              	0018F     	-1        	LABEL     	code      
+CALC                     	0019D     	-1        	LABEL     	code      
+SKIP                     	001B1     	-1        	LABEL     	code      
+PRINT_ZERO               	001C1     	-1        	LABEL     	code      
+END_PRINT                	001C9     	-1        	LABEL     	code      
+TEN                      	001CE     	2         	VAR       	code      
+===================================================================================================
+[ 26/10/2020  --  15:32:10 ] 
+< END >
+ 

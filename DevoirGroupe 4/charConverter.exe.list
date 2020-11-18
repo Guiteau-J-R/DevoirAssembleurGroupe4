@@ -1,0 +1,256 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+charConverter.exe -- emu8086 assembler version: 4.08  
+ 
+[ 10/24/2020  --  12:46:06 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       ;Faculte des Sciences de l'Universite d'Etat d'Haiti
+[   2]        :                                       ;Devoir d'assembleur
+[   3]        :                                       ;Sujet 2: Conversion de caracteres en valeurs hexadecimales et binaires
+[   4]        :                                       ;Pofesseur: M. Gary Antoine
+[   5]        :                                       ;Preparer par: Dieury P. Sylvain, Gamaliel Henri, Justinien R. Guiteau
+[   6]        :                                       ;Date: 16 Octobre 2020
+[   7]        :                                       
+[   8]        :                                       .MODEL SMALL
+[   9]        :                                       .STACK 100H
+[  10]        :                                       .DATA
+[  11]        :                                       
+[  12]        :                                       ;les chaines de caracteres a afficher
+[  13]    0100: 2A 2A 2A 43 6F 6E 76 65 72 73 69 6F   MSG1 DB '***Conversion de caracteres en valeurs hexadecimales et binaires***', 0Dh, 0Ah,'$'
+                6E 20 64 65 20 63 61 72 61 63 74 65 
+                72 65 73 20 65 6E 20 76 61 6C 65 75 
+                72 73 20 68 65 78 61 64 65 63 69 6D 
+                61 6C 65 73 20 65 74 20 62 69 6E 61 
+                69 72 65 73 2A 2A 2A 0D 0A 24       
+[  14]    0146: 45 6E 74 72 65 7A 20 75 6E 65 20 6C   MSG2 DB 'Entrez une lettre majuscule ou miniscule: $'
+                65 74 74 72 65 20 6D 61 6A 75 73 63 
+                75 6C 65 20 6F 75 20 6D 69 6E 69 73 
+                63 75 6C 65 3A 20 24                
+[  15]    0171: 43 6F 6E 76 65 72 73 69 6F 6E 20 48   MSG3 DB 'Conversion Hexadecimal: $'
+                65 78 61 64 65 63 69 6D 61 6C 3A 20 
+                24                                  
+[  16]    018A: 43 6F 6E 76 65 72 73 69 6F 6E 20 42   MSG4 DB 'Conversion Binaire: $'
+                69 6E 61 69 72 65 3A 20 24          
+[  17]    019F: 50 72 65 73 73 65 72 20 6E 20 70 6F   MSG5 DB "Presser n pour quiter ou n'importe quel bouton pour recommencer.$"
+                75 72 20 71 75 69 74 65 72 20 6F 75 
+                20 6E 27 69 6D 70 6F 72 74 65 20 71 
+                75 65 6C 20 62 6F 75 74 6F 6E 20 70 
+                6F 75 72 20 72 65 63 6F 6D 6D 65 6E 
+                63 65 72 2E 24                      
+[  18]        :                                       
+[  19]        :                                       ;variable pour stocker la lettre entree
+[  20]    01E0: 00                                    INPUT DB ?
+[  21]        :                                       
+[  22]        :                                       .CODE
+[  23]        :                                       ;Ce macro affiche un charactere se trouvant AL
+[  24]        :                                       ;et avance la position du curseur:
+[  25]        :                                       putc    MACRO   CHAR
+[  26]        :                                       PUSH    AX
+[  27]        :                                       MOV     AL, CHAR
+[  28]        :                                       MOV     AH, 0EH
+[  29]        :                                       INT     10H
+[  30]        :                                       POP     AX
+[  31]        :                                       ENDM
+[  32]        :                                       
+[  33]        :                                       ;ce macro passe a une nouvelle ligne
+[  34]        :                                       newline MACRO
+[  35]        :                                       PUSH AX
+[  36]        :                                       MOV AL, 0AH
+[  37]        :                                       MOV AH, 0EH
+[  38]        :                                       INT 10H
+[  39]        :                                       
+[  40]        :                                       MOV AL, 0DH
+[  41]        :                                       MOV AH, 0EH
+[  42]        :                                       INT 10H
+[  43]        :                                       POP AX
+[  44]        :                                       ENDM
+[  45]        :                                       
+[  46]        :                                       ;ce macro affiche un message a l'ecran
+[  47]        :                                       affichmsg macro msg
+[  48]        :                                       PUSH AX
+[  49]        :                                       LEA DX, msg
+[  50]        :                                       MOV AH, 09H
+[  51]        :                                       INT 21H
+[  52]        :                                       POP AX
+[  53]        :                                       ENDM
+[  54]        :                                       
+[  55]        :                                       
+[  56]        :                                       ;procedure principale
+[  57]    01F0:                                       MAIN PROC FAR
+[  58]    01F0: B8 10 00                              MOV AX,@DATA
+[  59]    01F3: 8E D8                                 MOV DS,AX
+[  60]        :                                       
+[  61]    01F5: 50 BA 00 00 B4 09 CD 21 58            affichmsg MSG1            ;affiche le contenu de MSG1
+[  62]        :                                       
+[  63]    01FE:                                       begin:
+[  64]    01FE: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passe a une nouvelle ligne
+                10 58                               
+[  65]    020C: 50 BA 46 00 B4 09 CD 21 58            affichmsg MSG2            ;affiche le contenu de MSG2
+[  66]        :                                       
+[  67]        :                                       ;reception et traitement de l'entrer de l'utilisateur
+[  68]    0215: EB 18                                 JMP firsttime
+[  69]    0217:                                       do:
+[  70]    0217: 50 B0 08 B4 0E CD 10 58               PUTC    8                 ; backspace
+[  71]    021F: 50 B0 20 B4 0E CD 10 58               PUTC    ' '               ; efface le dernier caractere entre
+[  72]    0227: 50 B0 08 B4 0E CD 10 58               PUTC    8                 ; backspace
+[  73]        :                                       
+[  74]    022F:                                       firsttime:
+[  75]    022F: B4 01                                 MOV AH, 01H
+[  76]    0231: CD 21                                 INT 21H
+[  77]        :                                       
+[  78]        :                                       ;conditions pour quiter la repetition
+[  79]        :                                       ;AL doit etre compris entre A et Z ou a et z
+[  80]    0233: 3C 41                                 CMP AL, 'A'
+[  81]    0235: 72 E0                                 JB  do                    ;retourner a do si al est avant A dans la table ascii
+[  82]    0237: 3C 5A                                 CMP AL, 'Z'
+[  83]    0239: 76 08                                 JBE  enddo                ;aller a enddo si al est entre A et Z
+[  84]    023B: 3C 61                                 CMP AL, 'a'
+[  85]    023D: 72 D8                                 JB  do                    ;retourner a do si al est entre Z et a
+[  86]    023F: 3C 7A                                 CMP AL, 'z'
+[  87]    0241: 77 D4                                 JA  do                    ;retourner a do si al est apres z dans la table ascii
+[  88]    0243:                                       enddo:
+[  89]        :                                       
+[  90]        :                                       ;test sur AL pour verifier si l'utilisateur a entre une lettre majuscule ou miniscule
+[  91]    0243: 3C 61                                 CMP AL, 'a'
+[  92]    0245: 72 04                                 JB maj
+[  93]    0247: 2C 57                                 SUB AL, 87                ;si AL minuscule, retrancher 57 pour obtenir la valeur hexadecimale
+[  94]    0249: EB 02                                 JMP min
+[  95]    024B:                                       maj:
+[  96]    024B: 2C 37                                 SUB AL, 55                ;si AL majuscule, retrancher 55 pour obtenir la valeur binaire
+[  97]    024D:                                       min:
+[  98]        :                                       
+[  99]    024D: A2 E0 00                              MOV INPUT, AL             ;charge la valeur de AL dans INPUT
+[ 100]        :                                       
+[ 101]    0250: B9 02 00                              MOV CX, 02H               ;nombre de fois a refaire la boucle
+[ 102]    0253: B3 10                                 MOV BL, 10H               ;initialiser bl a 16
+[ 103]    0255:                                       loop1:
+[ 104]    0255: F6 F3                                 DIV BL                    ;diviser la valeur de al par la valeur de bl
+[ 105]        :                                       
+[ 106]        :                                       ;verifier si le reste de la division
+[ 107]        :                                       ;precedente est superieur a 10
+[ 108]    0257: 80 FC 0A                              CMP AH, 10
+[ 109]    025A: 72 05                                 JB else1                  ;aller a else1 si ah inferieur a 10
+[ 110]    025C: 80 C4 37                              ADD AH, 55                ;convertir ah en caractere ascii correspondant en hexadecimal
+[ 111]    025F: EB 03                                 JMP endif1                ;aller a endif si ah est superieur ou egale a 10
+[ 112]    0261:                                       else1:
+[ 113]    0261: 80 C4 30                              add ah, '0'               ;convertir le chiffre dans ah en caractere ascii correspondant
+[ 114]    0264:                                       endif1:
+[ 115]    0264: 50                                    PUSH AX                   ;mettre la valeur ax dans le stack
+[ 116]    0265: 32 E4                                 XOR AH, AH                ;mettre ah a zero
+[ 117]    0267: E2 EC                                 loop loop1                ;retourner a loop1
+[ 118]        :                                       
+[ 119]    0269: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 120]    0277: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 121]    0285: 50 BA 71 00 B4 09 CD 21 58            affichmsg MSG3            ;afficher le contenu de MSG3
+[ 122]        :                                       
+[ 123]    028E: B9 02 00                              MOV CX, 02H               ;charger le nombre de fois a faire la boucle dans cx
+[ 124]    0291:                                       loop2:
+[ 125]    0291: 58                                    POP AX                    ;retirer les valeurs du stack
+[ 126]    0292: 50 8A C4 B4 0E CD 10 58               putc AH                   ;afficher le caractere ascii correspondant a la valeur contenu dans ah
+[ 127]    029A: E2 F5                                 loop loop2                ;retourner a loop2
+[ 128]    029C: 50 B0 48 B4 0E CD 10 58               putc 'H'                  ;afficher H
+[ 129]        :                                       
+[ 130]        :                                       
+[ 131]    02A4: A0 E0 00                              MOV AL, INPUT             ;charger le contenu de INPUT dans al
+[ 132]        :                                       
+[ 133]    02A7: 32 E4                                 XOR AH, AH                ;mettre ah a zero
+[ 134]        :                                       
+[ 135]    02A9: B9 08 00                              MOV CX, 08H               ;charger le nombre de fois a faire la boucle dans cx
+[ 136]    02AC: B3 02                                 MOV BL, 02H               ;initialiser bl a 2
+[ 137]    02AE:                                       loop3:
+[ 138]    02AE: F6 F3                                 DIV BL                    ;diviser la valeur de al par la valeur de bl
+[ 139]    02B0: 80 C4 30                              ADD AH, '0'               ;convertir le chiffre dans ah en caractere ascii correspondant
+[ 140]    02B3: 50                                    PUSH AX                   ;mettre la valeur ax dans le stack
+[ 141]    02B4: 32 E4                                 XOR AH, AH                ;mettre la valeur de ah a 0
+[ 142]    02B6: E2 F6                                 loop loop3                ;retourner a loop3
+[ 143]        :                                       
+[ 144]    02B8: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 145]    02C6: 50 BA 8A 00 B4 09 CD 21 58            affichmsg MSG4            ;afficher le contenu de MSG4
+[ 146]        :                                       
+[ 147]    02CF: B9 08 00                              MOV CX, 08H               ;charger le nombre de fois a faire la boucle dans cx
+[ 148]    02D2:                                       loop4:
+[ 149]    02D2: 58                                    POP AX                    ;retirer ax de la pile
+[ 150]    02D3: 50 8A C4 B4 0E CD 10 58               putc AH                   ;afficher le caractere ascii correspondant a la valeur contenu dans ah
+[ 151]    02DB: E2 F5                                 loop loop4                ;retourner a loop4
+[ 152]    02DD: 50 B0 42 B4 0E CD 10 58               putc 'B'                  ;afficher B
+[ 153]        :                                       
+[ 154]    02E5: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 155]    02F3: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 156]        :                                       
+[ 157]    0301: 50 BA 9F 00 B4 09 CD 21 58            affichmsg MSG5            ;afficher le contenu de MSG5
+[ 158]        :                                       
+[ 159]        :                                       ;attendre une entree au clavier
+[ 160]    030A: B4 00                                 MOV AH, 00h
+[ 161]    030C: CD 16                                 INT 16h
+[ 162]    030E: 3C 4E                                 CMP AL, 'N'
+[ 163]    0310: 74 15                                 JE exit
+[ 164]    0312: 3C 6E                                 CMP AL, 'n'
+[ 165]    0314: 74 11                                 JE exit
+[ 166]    0316: 50 B0 0A B4 0E CD 10 B0 0D B4 0E CD   newline                   ;passer a une nouvelle ligne
+                10 58                               
+[ 167]    0324: E9 D7 FE                              JMP begin                 ;retourner a begin
+[ 168]        :                                       
+[ 169]    0327:                                       exit:
+[ 170]        :                                       ;interruption pour quiter
+[ 171]    0327: B4 4C                                 MOV AH,4CH
+[ 172]    0329: CD 21                                 INT 21H
+[ 173]        :                                       
+[ 174]        :                                       MAIN ENDP
+[ 175]        :                                       END MAIN
+[ 176]        :                                       
+[ 177]        :                                       
+[ 178]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 2B      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 7A      -   check sum (l.byte)
+0013: 8A      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 1F      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 1F      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
